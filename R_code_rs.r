@@ -146,3 +146,7 @@ plotRGB(landsat_2011, r=3, g=4, b=2, stretch="hist")
 #carichiamo immagine 1988
 landsat_1988 <- brick("p224r63_1988.grd")
 
+par(mfrow=c(2,1))
+plotRGB(landsat_1988, r=3, g=4, b=2, stretch="hist")
+plotRGB(landsat_2011, r=3, g=4, b=2, stretch="hist")
+
