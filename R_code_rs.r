@@ -98,3 +98,51 @@ dev.off()
 par(mfrow=c(2, 1))
 plot(landsat_2011$B1_sre, col=cl_b)
 plot(landsat_2011$B2_sre, col=cl_g)
+
+#riprendo ultimi dieci minuti della lezione!!!!
+
+#LEZ 24/3
+#immgagini a colori (lunghezza d'onda visibile)
+#montare piùbande assieme RGB (red green blue)
+#plot dell'immagine landsat_11 nella banda NIR
+
+plot(landsat_2011$B4_sre)
+cl_nir <- colorRampPalette(c("red", "orange", "yellow")) (100)
+plot(landsat_2011$B4_sre, col=cl_nir)
+
+#plotRGB funzione per montare le 3 bande
+plotRGB(landsat_2011, r=3, g=2, b=1, stretch="lin")
+#stretch argomento della funzione che permette di modellare il contrasto
+#ciò permette di migliorare la qualità di resa dell'immagine
+#andiamo ad inserire il NIR, come?
+#faccio scorrere i posti delle tre bande
+#così mantengo r e g che scalano in posizione g e b 
+#mentre in posizione r ci sarà l'infrarosso
+plotRGB(landsat_2011, r=4, g=3, b=2, stretch="lin")
+
+#spostiamo infrarosso nella componente g
+plotRGB(landsat_2011, r=3, g=4, b=2, stretch="lin")
+ 
+#spostiamo infrarosso nella componente b
+plotRGB(landsat_2011, r=3, g=2, b=4, stretch="lin")
+#in questa immagine in giallo si distinguono le zone a suolo nudo (agrioltura, strade,...)
+ 
+#stretch lineare = ampliare i valori possibili in modo lineare
+#stretch histogramma = l'ampliamento della gamma dei colori è molto più repentina
+plotRGB(landsat_2011, r=3, g=2, b=4, stretch="hist")
+plotRGB(landsat_2011, r=3, g=4, b=2, stretch="hist")
+#in questo caso è il violetto a rappresentare le zone a suolo nudo
+ 
+#come scelgo cosa? vado a piacere, non c'è un vero e proprio modus operandi
+
+#esercizio: faccio un multiframe con colori naturali RGB (linear stretch)
+#sotto a questa una a falsi colori, con nir (hist stretch)
+
+par(mfrow=c(2,1))
+plotRGB(landsat_2011, r=3, g=2, b=1, stretch="lin")
+plotRGB(landsat_2011, r=3, g=4, b=2, stretch="hist")
+
+#griglia di pixel = grd
+#carichiamo immagine 1988
+landsat_1988 <- brick("p224r63_1988.grd")
+
