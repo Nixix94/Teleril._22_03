@@ -150,3 +150,13 @@ par(mfrow=c(2,1))
 plotRGB(landsat_1988, r=3, g=4, b=2, stretch="hist")
 plotRGB(landsat_2011, r=3, g=4, b=2, stretch="hist")
 
+#LEZ 25/3
+#indice di vegetazione definizione
+#NDVI
+#usare bande del rosso e nir
+#pixel con fenologia di picco di biomassa riflette molto il nir
+#mentre assorbe il rosso
+#in una scala di riflettanza da 0-100 il nir sarà vicino al 100, contrario per il rosso
+#info per creare indice spettrale -> DVI = riflNIR - riflRED
+#se la stessa pianta è in uno stato di sofferenza rifletterà molto meno il NIR
+#ed assorbirà meno rosso. Va da sé che il valore DVI diminuirà
