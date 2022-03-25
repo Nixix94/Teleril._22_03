@@ -1,7 +1,8 @@
 #Questo è il primo script che useremo a lezione 
 #install.packages ("rester")
+#mirror c'è una condivisione in più server che così se uno collassa i dati non vanno persi
 library (raster)
- 
+
 #quando usiamo dati raster è importante impostare il workplace ogni volta, perchè R li carica in una cartella temporanea
 #settaggio cartella di lavoro
 
@@ -99,6 +100,7 @@ par(mfrow=c(2, 1))
 plot(landsat_2011$B1_sre, col=cl_b)
 plot(landsat_2011$B2_sre, col=cl_g)
 
+cl_r <- colorRampPalette(c("", "", ""))
 #riprendo ultimi dieci minuti della lezione!!!!
 
 #LEZ 24/3
