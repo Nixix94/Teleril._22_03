@@ -1,0 +1,58 @@
+library(raster)
+setwd("C:/lab/")
+#importazione delle immagini 
+#install.packages(rgdal)
+library(rgdal)
+#vedo cos'è rgdal
+defor1992 <- brick("defor1_.jpg")
+defor1992
+
+#guardo nomi e valori min e max
+#a differenza dell'immagini 
+
+#dice cose, meglio che ti vai a vedere la registrazione
+#dice tante cose, mentre tu stavi guardando la chat di tua sorella che ti chieva se volevi delle braghe rosa salmone merda
+
+plotRGB(defor1992, r=1, g=2, b=3, stretch="lin")
+# plotRGB(defor1992, r=4, g=3, b=2, stretch="lin")
+#quale banda è cosa? defor1_.1=nir, defor1_.2=red, defor1_.3=green
+#diverso rispetto immagini satellitari dove 1=b, 2=g, 3=r, 4=nir
+#perchè? ...
+
+#importare seconda immagine
+defor2006 <- brick("defor2_.jpg")
+defor2006
+plotRGB(defor2006, r=1, g=2, b=3, stretch="lin")
+
+#creo multiframe
+par(mfrow=c(2,1))
+plotRGB(l1992, r=1, g=2, b=3, stretch="lin")
+plotRGB(l2006, r=1, g=2, b=3, stretch="lin")
+
+#Difference vegetation index DVI 
+#differenza di riflettanza tra nir e red
+#valore che ottengo mi ridà stato di salute della vegetazione, ovvero DVI
+
+dvi1992 <- defor1992[[1]] - defor1992[[2]]
+dvi1992
+#posso usare nomi o [[elementi]]
+#es.: dvi1992 <- defor1992$defor1_.1 - defor1992$defor1_.2
+cl <- colorRampPalette(c('darkblue','yellow','red','black'))(100) # specifying a color scheme
+plot(dvi1992, col=cl_dvi)
+
+dvi2006 <- defor2006[[1]] - defor2006[[2]]
+dvi2006
+plot(dvi2006, col=cl_dvi)
+#parti in giallo sono il MALE
+
+par(mfrow=c(2,1))
+plot(dvi1992, col=cl_dvi)
+plot(dvi2006, col=cl_dvi)
+dev.off()
+
+#vedo differenza nel tempo del DVI
+dvi_dif <- dvi1992 - dvi2006
+cl_dvi_dif <- colorRampPalette(c('blue','white','red'))(100)
+plot(dvi_dif, col=cl_dvi_dif)
+#così possiamo indagare dove è avvenuta deforestazione
+#in rosso, con diversa intensità, si possono distinguere piante non in salute-piante morte-suolo nudo
