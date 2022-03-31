@@ -92,3 +92,18 @@ plot(ndvi2006, col=cl_dvi)
 par(mfrow=c(1,2))
 plot(ndvi1992, col=cl_dvi)
 plot(ndvi2006, col=cl_dvi)
+
+#install.packages("RStoolbox")
+library(RStoolbox)
+#vado a vedere la lezione per alcune definizioni tipo quella della funzione qui sotto
+si1992 <- spectralIndices(defor1992, green=3, red=2, nir=1)
+si1992
+plot(si1992, col=cl_dvi)
+#NDWI indice per quantità d'acqua presente in ogni pixel
+si2006 <- spectralIndices(defor2006, green=3, red=2, nir=1)
+si2006
+plot(si2006, col=cl_dvi)
+
+#install.packages("rasterdiv")
+library(rasterdiv)
+plot(copNDVI)
