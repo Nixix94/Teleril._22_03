@@ -26,8 +26,8 @@ plotRGB(defor2006, r=1, g=2, b=3, stretch="lin")
 
 #creo multiframe
 par(mfrow=c(2,1))
-plotRGB(l1992, r=1, g=2, b=3, stretch="lin")
-plotRGB(l2006, r=1, g=2, b=3, stretch="lin")
+plotRGB(defor1992, r=1, g=2, b=3, stretch="lin")
+plotRGB(defor2006, r=1, g=2, b=3, stretch="lin")
 
 #Difference vegetation index DVI 
 #differenza di riflettanza tra nir e red
@@ -37,7 +37,7 @@ dvi1992 <- defor1992[[1]] - defor1992[[2]]
 dvi1992
 #posso usare nomi o [[elementi]]
 #es.: dvi1992 <- defor1992$defor1_.1 - defor1992$defor1_.2
-cl <- colorRampPalette(c('darkblue','yellow','red','black'))(100) # specifying a color scheme
+cl_dvi <- colorRampPalette(c('darkblue','yellow','red','black'))(100) # specifying a color scheme
 plot(dvi1992, col=cl_dvi)
 
 dvi2006 <- defor2006[[1]] - defor2006[[2]]
@@ -56,3 +56,17 @@ cl_dvi_dif <- colorRampPalette(c('blue','white','red'))(100)
 plot(dvi_dif, col=cl_dvi_dif)
 #così possiamo indagare dove è avvenuta deforestazione
 #in rosso, con diversa intensità, si possono distinguere piante non in salute-piante morte-suolo nudo
+
+31/3
+#NDVI calcolare indice DVI standardizzazo sulla somma dei valori di riflettanza delle due bande (normalizzazione)
+2^8 = 256    2^16 = 65536
+#NIR-RED/NIR+RED = NDVI
+#con immagine 8bit la banda varia da 0 a 256
+#Range DVI da -255 a 255
+#DVI max. sarà 255 Nir (valore riflettanza massimo) - 0 Red (valore rifl. min., assorbimento max.), DVI min. con valori opposti 
+#Range NDVI da -1 a 1
+#NDVI max. sarà 255-0/255+0
+#stessi calcoli anche per le immagini a 16bit (2^16)
+#PERò con NDVI possiamo confrontare immagini con num di bit diverso, in quanto il range è standardizzato 
+
+#Risoluzione radiometrica: quantità di bit all'interno di un'immagine
