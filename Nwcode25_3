@@ -70,3 +70,25 @@ plot(dvi_dif, col=cl_dvi_dif)
 #PERò con NDVI possiamo confrontare immagini con num di bit diverso, in quanto il range è standardizzato 
 
 #Risoluzione radiometrica: quantità di bit all'interno di un'immagine
+#Calcolo NDVI 1992
+ndvi1992 <- (defor1992[[1]] - defor1992[[2]]) / (defor1992[[1]] + defor1992[[2]])
+ndvi1992
+#al numeratore potrei usare anche dvi1992
+plot(ndvi1992, col=cl_dvi)
+
+#multiframe
+par(mfrow=c(2,1))
+plotRGB(dvi1992, r=1, g=2, b=3, stretch="lin")
+plot(ndvi1992, col=cl_dvi)
+#nell'immagine il colore dell'acqua, che dovrebbe avere il valore minimo, è diverso, perchè?
+#%% di materiale in sospensione
+
+#Calcolo NDVI 2006
+ndvi2006 <- (defor2006[[1]] - defor2006[[2]]) / (defor2006[[1]] + defor2006[[2]])
+ndvi2006
+plot(ndvi2006, col=cl_dvi)
+
+#multiframe
+par(mfrow=c(1,2))
+plot(ndvi1992, col=cl_dvi)
+plot(ndvi2006, col=cl_dvi)
