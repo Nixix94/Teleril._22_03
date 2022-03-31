@@ -107,3 +107,6 @@ plot(si2006, col=cl_dvi)
 #install.packages("rasterdiv")
 library(rasterdiv)
 plot(copNDVI)
+
+1/4
+time series analysis
