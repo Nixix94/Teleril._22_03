@@ -1,4 +1,54 @@
+1/4
 library(raster)
 library(RStoolbox)
 library(rasterdiv)
+library(rgdal)
 setwd("C:/lab/")
+
+#Time series analysis
+#Importare tanti o vari tipi di immagini/dati in blocco 
+#con immagini satellitari non posso distinguere strutturalmente le coltivazione dalla foresta (almeno che non faccia analisi iperspettrale)
+#posso farlo attraverso la geometria degli spazi attraverso indici.....
+
+#prima parte della lezione abbiamo visto alcuni tipi di indici e variabili, cercare tra i file su Virtuale
+
+#Land Surface Temperature
+#Quanto è cambiata in Groelandia la temp nel tempo?
+setwd("C:/lab/greenland")
+#install.packages("rasterVis")
+library(rasterVis)
+
+#Operazione usuale "uno per uno"
+#uso funzione "raster" mi permette di inserire dati composti da un unico layer
+lst_2000 <- raster("lst_2000.tif")
+lst_2005 <- raster("lst_2005.tif")
+lst_2010 <- raster("lst_2010.tif")
+lst_2015 <- raster("lst_2015.tif")
+#interrogando vedo che sono immagini a 16bit
+cl <- colorRampPalette(c("blue","light blue","pink","red"))(100)
+# par -> multiframe
+par(mfrow=c(2,2))
+plot(lst_2000, col=cl)
+plot(lst_2005, col=cl)
+plot(lst_2010, col=cl)
+plot(lst_2015, col=cl)
+
+#Operazione di importo set di dati in blocco
+#attraverso list.file(pattern=...) vado a ragruppare file con pattern comune
+#attraverso l'argomento pattern, all'interno della funzione, diamo info riguardo ad un carattere = per tutti i files che vogliamo
+rlist <- list.files(pattern="lst")
+rlist
+#funzione lapply va a ragruppare in una lista i files e li processa per la stessa funzione (in questo caso "raster")
+import <- lapply(rlist,raster)
+import
+#con funzione "stack" prendiamo i singoli layer e li uniamo per formare un unico file
+tgr <- stack(import)
+tgr
+plot(tgr, col=cl)
+plot(tgr[[1]], col=cl)
+plotRGB(tgr, r=1, g=2, b=3, stretch="lin")
+
+#writeRaster: Write raster data to a file    funzione per esportare
+
+7/4
+setwd("C:/lab/EN")
