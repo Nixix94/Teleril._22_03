@@ -1,0 +1,4 @@
+library(raster)
+library(RStoolbox)
+library(rasterdiv)
+setwd("C:/lab/")
