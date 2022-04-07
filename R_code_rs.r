@@ -35,11 +35,13 @@ cl <- colorRampPalette(c("black", "grey", "light grey")) (100)
 plot(landsat_2011, col=cl)
 
 #così ho potuto dare ad ogni singola banda il colore che ho scelto io 
-#lez 18/3
- 
+
+#lez 18/3 
 #min values = 0 mi dice che la luce è completamente assorbita
-#??controllo lez 16:30 lez 18/3
+#max values = 1 valore riflettanza massimo, totalmente riflessa (lune NIR)
+#L'ETM+ (Enhanced Thematic Mapper Plus), è un sensore montato a bordo del satellite artificiale Landsat 7
 #Banda1=Blu, Banda2=Verde, Banda3=Rosso, Banda4=Infrarosso vicino (NIR near infrared)
+#ogni banda è composta da 4mil di pixel
 
 #plotiamo una singola banda
 #conoscere il nome della banda = interrogo l'oggetto
@@ -50,7 +52,7 @@ plot(landsat_2011$B1_sre)
 #lego argomenti con $
 #B1_sre è anche il primo elemento, questi nella formunla si racchiudono in doppia [[]]
 plot(landsat_2011[[1]])
-#è uguale usare uno dei due metodi
+#è uguale usare uno dei due metodi, con il nome vedi che stai facendo con l'elemento sei più veloce
  
 #ora si colora, vedi cl
 plot(landsat_2011$B1_sre, col=cl)
@@ -62,16 +64,16 @@ plot(landsat_2011$B1_sre, col=cl_b)
 pdf("banda1.pdf")
 plot(landsat_2011$B1_sre, col=cl_b)
 dev.off()
- 
-#all'inizio del codice abbiamo impostato la working directory
+#dev.off() va a chiudere la finestra virtuale
+#all'inizio del codice abbiamo impostato la working directory (pdf("~/Desktop/banda1.pdf"))
 #altrimenti si può cambiare la path all'interno della funzione pdf
 #esportare con funzione: png
 png("banda1.png")
 plot(landsat_2011$B1_sre, col=cl_b)
 dev.off()
 
-#per esportare il dataset raster, funzione: writeRaster, quindi formato geotiff/tiff
-#raster con bamda scelta oppure pacchetto
+#per esportare il dataset raster (l'immagine), funzione: writeRaster, quindi formato geotiff/tiff
+#raster con banda scelta oppure pacchetto
  
 #fare plot di più immagini satellitari selezionandole
 #esempio blue e verde
@@ -100,8 +102,15 @@ par(mfrow=c(2, 1))
 plot(landsat_2011$B1_sre, col=cl_b)
 plot(landsat_2011$B2_sre, col=cl_g)
 
-cl_r <- colorRampPalette(c("", "", ""))
-#riprendo ultimi dieci minuti della lezione!!!!
+cl_r <- colorRampPalette(c("dark red", "red", "pink"))
+cl_nir <- colorRampPalette(c("red", "orange", "yellow")) (100)
+
+par(mfrow=c(2, 2))
+plot(landsat_2011$B1_sre, col=cl_b) #blue
+plot(landsat_2011$B2_sre, col=cl_g) #green
+plot(landsat_2011$B3_sre, col=cl_r) #red
+plot(landsat_2011$B4_sre, col=cl_nir1) #nir
+dev.off()
 
 #LEZ 24/3
 #immgagini a colori (lunghezza d'onda visibile)
