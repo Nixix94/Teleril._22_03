@@ -48,7 +48,54 @@ plot(tgr, col=cl)
 plot(tgr[[1]], col=cl)
 plotRGB(tgr, r=1, g=2, b=3, stretch="lin")
 
-#writeRaster: Write raster data to a file    funzione per esportare
+#writeRaster: Write raster data to a file  -  funzione per esportare
 
 7/4
+#time series analysis - level decrease of NO2 (diossidi di azoto) lockdown
+# https://www.esa.int/Applications/Observing_the_Earth/Copernicus/Sentinel-5P/Coronavirus_lockdown_leading_to_drop_in_pollution_across_Europe
+# https://acp.copernicus.org/preprints/acp-2020-995/acp-2020-995.pdf
+
+#worcking directory
 setwd("C:/lab/EN")
+
+EN01 <- raster("EN_0001.png") #16:48 differenza tra funzione brick e raster
+cl <- colorRampPalette(c('red','orange','yellow'))(100)
+plot(EN01, col=cl)
+
+EN13 <- raster("EN_0013.png")
+plot(EN13, col=cl)
+
+#let's import all the dataset
+list <- list.files(pattern="EN")
+list
+
+import <- lapply(list,raster)
+import
+
+EN <- stack(import)
+EN
+plot(EN, col=cl)
+
+#list.files lista dei files con carattere (pattern="") comune nel nome
+#lapply importare blocco utilizzando funzione comune, il risultato è un insieme di dati diversi
+#stack ragruppare i files in uno unico
+
+# plot only the first image of the stack
+plot(EN$EN_0001, col=cl)
+# rgb
+plotRGB(EN, r=1, g=7, b=13, stretch="lin")
+
+#multiframe, confronto imm. 1 e 13
+par(mfrow=c(2,1))
+plot(EN[[1]], col=cl)
+plot(EN[[13]], col=cl)
+# OR! secondo metodo, creo un nuovo oggetto che con funzione stack ha solo queste due immagini
+EN1_13 <- stack(EN[[1]], EN[[13]])
+plot(EN1_13, col=cl)
+dev.off()
+
+# difference imm. 1 e 13 
+ENdif <- EN$EN_0001 - EN$EN_0013
+cldif <- colorRampPalette(c('blue','white','red'))(100)
+plot(ENdif, col=cldif)
+#zone rosse con maggiore decrescita dei livelli di NO2
