@@ -82,8 +82,6 @@ plot(EN, col=cl)
 
 # plot only the first image of the stack
 plot(EN$EN_0001, col=cl)
-# rgb
-plotRGB(EN, r=1, g=7, b=13, stretch="lin")
 
 #multiframe, confronto imm. 1 e 13
 par(mfrow=c(2,1))
@@ -99,3 +97,20 @@ ENdif <- EN$EN_0001 - EN$EN_0013
 cldif <- colorRampPalette(c('blue','white','red'))(100)
 plot(ENdif, col=cldif)
 #zone rosse con maggiore decrescita dei livelli di NO2
+
+8/4
+#funzione che mi permette di usare codici esterni, provenienti da altre fonti
+#si può aprire il codice su un editor text, salvarlo, e poi introdurlo in R che lo legge direttamente
+
+#bisogna settare la worcking directory
+setwd("C:/lab")
+
+#funzione "source" e caricare il codice
+source("lez.txt")
+
+#riprendo l'ultima parte della lezione di ieri, andando a importare nuovamente le imm satellitari dalla cartella EN
+
+#RGB intersenzione componenti per poter vedere immagini a colori naturali con banda3=rosso banda2=verde banda1=blu
+#in questo caso si va a vedere le bande di azoto (valori più alti: periodo1 rosso, periodo2 verde, periodo3 blu)
+# plotRGB
+plotRGB(EN, r=1, g=7, b=13, stretch="lin")
