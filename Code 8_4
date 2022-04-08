@@ -1,0 +1,33 @@
+8/4
+
+library(raster)
+library(RStoolbox) #serie di strumenti da poter utilizzare per Remote Sensing
+library(rasterdiv)
+library(rgdal)
+setwd("C:/lab/")
+
+#"classificazione"
+#processo di "massima similarità dei pixel" per ragrupparli insieme in delle classi #vai a vedere nome in inglese
+#mappa classificata non ha i valori di riflettanza dei singoli pixel
+
+#esercizio con immagine satellitare del sole
+so <- brick("Solar_Orbiter_s_first_views_of_the_Sun_pillars.jpg")
+so
+#se cerco il nome dell'immagine sul web mi rimanda al site dell' ESA
+# "so" essendo un immagine satellitare ha già in sè le bande
+#plotRGB
+plotRGB(so, r=1, g=2, b=3, stretch=lin)
+
+#machine-learning impara a classificare l'immagine e come si sono disposti i pixel rispetto lo spazio delle bande multispettrali
+#dobbiamo indicare al software come leggere l'immagine e distinguere le classi
+#funzione unsuperClass -> dopo aver indicato il numero di classi che noi vogliamo, il programma si arrangia durante la classificazione (non supervisionata)
+
+#Classifyng solar data
+soc <- unsuperClass(so, nClasses=3)
+soc
+#Fatto primo modello# ecco contiene varie voci che lo caratterizzano con unico output "$map"
+#$map presenta valori da 1 a 3 che rappresentano le eticchette delle bande
+
+cl <- colorRampPalette(c('yellow','black','red'))(100)
+plot(soc$map, col=cl)
+#funzione set.seed() ripete funzione facendo sempre lo stesso passaggio
