@@ -27,6 +27,7 @@ soc <- unsuperClass(so, nClasses=3)
 soc
 #Fatto primo modello# ecco contiene varie voci che lo caratterizzano con unico output "$map"
 #$map presenta valori da 1 a 3 che rappresentano le eticchette delle bande
+#se rilancio la funzione il risultato potrebbe non essere il medesimo perchè potrebbe cambiare la sequenza di analisi dell'algoritmo
 
 cl <- colorRampPalette(c('yellow','black','red'))(100)
 plot(soc$map, col=cl)
