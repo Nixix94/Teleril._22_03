@@ -32,3 +32,34 @@ soc
 cl <- colorRampPalette(c('yellow','black','red'))(100)
 plot(soc$map, col=cl)
 #funzione set.seed() ripete funzione facendo sempre lo stesso passaggio
+
+21/4
+
+gc <- brick("dolansprings_oli_2013088_canyon_lrg.jpg")
+gc
+plotRGB(gc, r=1, g=2, b=3, stretch="list")
+
+#unsuper = unsupervision ovvero la classificazione non è supervisionata, è il modo più veloce
+#creazione modello di classificazione
+gcclass2 <- unsuperClass(gc, nClasses=2)
+gcclass2
+#lento perchè deve elaborare 58mln di dati per ogni banda (ovvero 3)
+
+plot(gcclass2$map)
+#set.seed(*n.ripetizioni) mi da per un numero tot di ripetizioni la stessa classificazione, che altrimenti cambierebbe, anche di un minimo, ogni volta
+gcclass4 <- unsuperClass(gc, nClasses=4)
+gcclass4
+plot(gcclass4$map)
+cl <- colorRampPalette(c('yellow','red', 'blue', 'black'))(100)
+plot(gcclass4$map, col=cl)
+
+# compare the classified map with the original set
+par(mfrow=c(2,1))
+plot(gcclass4$map, col=cl)
+plotRGB(gc, r=1, g=2, b=3, stretch="hist")
+#mappare singolarmente o stack
+st <- stack(gc, gcclass4$map)
+
+plot(st) 
+#stack immagine originale e immagine classificata
+#ottengo le 3bande (imm originale) e l'imm classificata
