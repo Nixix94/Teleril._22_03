@@ -1,0 +1,68 @@
+22/4
+#Analisi multi-temporale di cambiamento di uso del suolo
+
+library(raster)
+library(RStoolbox) #serie di strumenti da poter utilizzare per Remote Sensing
+library(rasterdiv)
+library(rgdal)
+# install.packages("ggplot2")
+#ggplot2 pacchetto per visualizzazione dei dati, con libro dedicato open-access
+library(ggplot2)
+# install.packages("gridExtra")
+library(gridExtra) # for grid.arrange plotting
+setwd("C:/lab/")
+
+#defor -> immagini da "earth osservatory"
+defor1 <- brick("defor1_.jpg")
+defor2 <- brick("defor2_.jpg")
+# NIR 1, RED 2, GREEN 3
+plotRGB(defor1, r=1, g=2, b=3, stretch="lin")
+plotRGB(defor2, r=1, g=2, b=3, stretch="lin")
+par(mfrow=c(1,2))
+plotRGB(defor1, r=1, g=2, b=3, stretch="lin")
+plotRGB(defor2, r=1, g=2, b=3, stretch="lin")
+
+#basata su due pacchetti (ggplot2 e RStoolbox)
+#poter creare multiframe in modo più veloce
+ggRGB(defor1, r=1, g=2, b=3, stretch="lin")
+ggRGB(defor2, r=1, g=2, b=3, stretch="lin")
+# install.packages("patchwork")
+library(patchwork)
+p1 <- ggRGB(defor1, r=1, g=2, b=3, stretch="lin")
+p2 <- ggRGB(defor2, r=1, g=2, b=3, stretch="lin")
+p1 + p2
+p1 / p2
+
+# multiframe with ggplot2 and gridExtra
+p1 <- ggRGB(defor1, r=1, g=2, b=3, stretch="lin")
+p2 <- ggRGB(defor2, r=1, g=2, b=3, stretch="lin")
+grid.arrange(p1, p2, nrow=2)
+
+# unsupervised classification
+set.seed(1)
+d1c <- unsuperClass(defor1, nClasses=2)
+plot(d1c$map)
+# class 1(w): forest
+# class 2(g): agriculture (+ water)
+set.seed(1)
+d2c <- unsuperClass(defor2, nClasses=2)
+plot(d2c$map)
+# class 1(w): agriculture (+ water)
+# class 2(g): forest
+#!!!il nome delle classi viene dato successivamente alla classificazione, in quanto questa è random
+
+#calcolo frequenza di pixel appartenenti alla classe foresta 
+# frequencies
+freq(d1c$map)
+#   value  count
+#[1,]     1 305813
+#[2,]     2  35479
+#numero di pixel per ogni classe
+s1 <- 306583 + 34709
+
+freq(d2c$map)
+#     value  count
+#[1,]     1 178659
+#[2,]     2 164067
+s2 <- 178659 + 164067
+
