@@ -1,0 +1,15 @@
+29/4
+#Miusura variabilità nello spazio
+#Ghiacciaio del Similaun -> variabilità geo-ecologico
+#Immagini Sentinel, risoluzione a 10mt, bande 1nir, 2r, 3g
+
+#install.packages("viridis"), mi serve per creare colorazioni associate a legende con nomi
+library(raster)
+library(RStoolbox) #serie di strumenti da poter utilizzare per Remote Sensing
+library(rasterdiv)
+library(rgdal)
+library(ggplot2)
+library(gridExtra)
+library(viridis)
+library(patchwork)
+setwd("C:/lab/")
