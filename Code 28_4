@@ -1,5 +1,5 @@
-29/4
-#Miusura variabilità nello spazio
+29/4 
+#Miusura variabilità nello spazio, variarioni geo-strutturali o di land cover
 #Ghiacciaio del Similaun -> variabilità geo-ecologico
 #Immagini Sentinel, risoluzione a 10mt, bande 1nir, 2r, 3g
 
@@ -13,3 +13,47 @@ library(gridExtra)
 library(viridis)
 library(patchwork)
 setwd("C:/lab/")
+
+#importare imm Similaun
+sim <- brick("sentinel.png")
+sim
+ggRGB(sim, r=1, g=2, b=3, stretch="lin")
+ggRGB(sim, 2, 1, 3, stretch="lin")
+#NiR nella componente green, così roccia viola e bosco verde e gradazione del colore con le praterie
+#plotiamo le due immagini con patchwork
+#prima diamo in nome agli oggetti
+im1 <- ggRGB(sim, r=1, g=2, b=3, stretch="lin")
+im2 <- ggRGB(sim, 2, 1, 3, stretch="lin")
+im3 <- im1 + im2
+im3
+
+#calcolo variabilità: attraverso finestra mobile (moving window) questa si sposterà per tutta l'immagine andando a calcolare i valori che desidero
+#deviazione standard: calcolo degli scarti di ogni valore dalla media, corrisponde a circa il 68% dei dati 
+#più aumenta la diversità dei valori maggiore sarà la deviazione
+#mentre per sottolineare tale valore di deviazione lo si esprime al ^2, ottengo così la varianza
+#funzione "focal", calcolo in una finestra mobile per una modaità (ndvi, nir, analisi delle componenti principali (con + info))
+
+#calcolare variazione di NIR
+nir <- sim[[1]]
+nir
+#focal(oggetto, matrix(unità della matrice 1/9, e gli estremi 3, 3), definire argomento fun= (dev stand))
+devs <- focal(nir, matrix(1/9, 3, 3), fun=sd)
+clsd <- colorRampPalette(c('blue','green','pink','magenta','orange','brown','red','yellow'))(100)  
+plot(devs, col=clsd)
+#imm della variabilità dove vengono identificate tutte le zone a più alta variabilità. Dove c'è una differenziazione molto forte tipo crepacci, zone luce/ombra
+
+#ggplot
+ggplot() +
+geom_raster(devs, mapping= aes(x=x, y=y, fill=layer))
+ 
+# https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html
+# The package contains eight color scales: “viridis”, the primary choice, 
+#and five alternatives with similar properties - “magma”, “plasma”, “inferno”, “civids”, “mako”, and “rocket” -, and a rainbow color map - “turbo”.
+#ggplot con viridis
+ggplot() +
+geom_raster(devs, mapping= aes(x=x, y=y, fill=layer)) +
+scale_fill_viridis (option = "cividis") +
+ggtitle("Standard deviation from Viridis")
+
+#esercizio con matrice 7x7
+devs7 <- focal(nir, matrix(1/49, 7, 7), fun=sd)
