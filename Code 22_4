@@ -6,7 +6,7 @@ library(RStoolbox) #serie di strumenti da poter utilizzare per Remote Sensing
 library(rasterdiv)
 library(rgdal)
 # install.packages("ggplot2")
-#ggplot2 pacchetto per visualizzazione dei dati, con libro dedicato open-access
+#ggplot2 pacchetto per visualizzazione dei dati, con libro dedicato open-access, serve RStoolbox
 library(ggplot2)
 # install.packages("gridExtra")
 library(gridExtra) # for grid.arrange plotting
@@ -28,6 +28,7 @@ ggRGB(defor1, r=1, g=2, b=3, stretch="lin")
 ggRGB(defor2, r=1, g=2, b=3, stretch="lin")
 # install.packages("patchwork")
 library(patchwork)
+#semplifica la creazione di multiframe, si assegna il plot ad un oggetto e poi si sommano o rapporto
 p1 <- ggRGB(defor1, r=1, g=2, b=3, stretch="lin")
 p2 <- ggRGB(defor2, r=1, g=2, b=3, stretch="lin")
 p1 + p2
@@ -55,14 +56,55 @@ plot(d2c$map)
 # frequencies
 freq(d1c$map)
 #   value  count
-#[1,]     1 305813
+#[1,]     1 305813   #intendere come campione di pixel
 #[2,]     2  35479
-#numero di pixel per ogni classe
-s1 <- 306583 + 34709
+#sommmmo il numero di pixel per ogni classe, così da ottenere il totale e poter fare una proporzione delle classi
+s1 <- 306583 + 34709 #intendere come popolazione
+prop1 <- freq(d1c$map) / s1
+prop1
+# prop forest: 0.8983012
+# prop agriculture: 0.1016988
+#percentuale 
+percent_forest <- 306582 * 100 / s1 
+percent_agr <- 35479 * 100 / s1
 
 freq(d2c$map)
 #     value  count
 #[1,]     1 178659
-#[2,]     2 164067
+#[2,]     2 164067  
 s2 <- 178659 + 164067
+percent_forest2 <- 164067 * 100 / s2
+percent_agri2 <- 178659 * 100 / s2
 
+#FINAL DATA:
+#costruiamo dataframe con funzuione "data.frame" - tabella con tre colonne "Classe", "Perc_92", "Perc_06"
+#percent_forest 89.82982
+#percent_agr 10.3955
+#percent_forest2 47.87119
+#percent_agri2 52.12881
+
+#columns/fields
+class <- c("Forest", "Agriculture")
+percent_92 <- c(89.82982, 10.3955)
+percent_06 <- c(47.87119, 52.12881)
+
+percentages <- data.frame(class, percent_92, percent_06)
+#associare ad un nome per poi poterlo usare
+percentages
+#per vedere dataset in formato tabellare uso funzione View
+View(percentages)
+
+#per creare grafici uso pacchetto ggplot2, si compone di molte funzioni
+#argomento aes = estetics ovvero le colonne
+ggplot(percentages, aes(x=class, y=percent_92, color=class)) + geom_bar(stat="identity", fill="white")
+#così com'è mi apre un plot vuoto, aggiungo funzione "geom_bar" per avere istogramma a barre
+#stat="identity" per usare i valori così come sono, altrimenti potevo indicare di fare delle operazioni
+
+ggplot(percentages, aes(x=class, y=percent_06, color=class)) + geom_bar(stat="identity", fill="white")
+
+#così posso estrarre dati quantitativi partendo da delle immagini
+
+#per estrarre pdf
+pdf("percentages_1992")
+ggplot(percentages, aes(x=class, y=percent_92, color=class)) + geom_bar(stat="identity", fill="white")
+dev.off()
