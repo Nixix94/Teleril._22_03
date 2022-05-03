@@ -30,7 +30,7 @@ im3
 #calcolo variabilità: attraverso finestra mobile (moving window) questa si sposterà per tutta l'immagine andando a calcolare i valori che desidero
 #deviazione standard: calcolo degli scarti di ogni valore dalla media, corrisponde a circa il 68% dei dati 
 #più aumenta la diversità dei valori maggiore sarà la deviazione
-#mentre per sottolineare tale valore di deviazione lo si esprime al ^2, ottengo così la varianza
+#mentre per sottolineare tale valore di deviazione lo si esprime al ^2, ottengo così la Varianza
 #funzione "focal", calcolo in una finestra mobile per una modaità (ndvi, nir, analisi delle componenti principali (con + info))
 
 #calcolare variazione di NIR
@@ -57,3 +57,8 @@ ggtitle("Standard deviation from Viridis")
 
 #esercizio con matrice 7x7
 devs7 <- focal(nir, matrix(1/49, 7, 7), fun=sd)
+
+3/5
+RECUPERO LEZIONI VARIABILITà ED ETEROGENEITà
+
+#Deviazione standard con curva normale. Al ^2 è la Varianza.
