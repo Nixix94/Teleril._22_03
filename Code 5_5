@@ -1,0 +1,44 @@
+5/5
+#Esame: 1 controllo codici su github 2 progetto 3 relazione orale progetto
+#trovare dati: su virtuale sorgenti di dati
+
+#Multivariate analysis ______ PCA
+#scopo di compattare i dati in modo più semplice e leggibile le molte variabili
+#film flatland
+#passare da una Nesima dimensione di bande ad una banda unica contenente tutte le info correlate tra loro
+#In imm sat abbiamo due bande molto correlate (non causale)
+#
+
+
+#la costituzione di altri due (ed innumerevoli altri) assi azzera il fenomeno di correlazione
+#nel nuovo sistema la gran parte dell'informazione è concentrato su di un solo asse
+#PCA??
+#calcolo tramite moving window
+
+#vai a vedere lezione
+
+# R code for multivariate analysis 
+
+library(raster)
+library(RStoolbox)
+library(ggplot2)
+library(patchwork)
+setwd("C:/lab/")
+
+p224r63_2011 <- brick("p224r63_2011_masked.grd")
+p224r63_2011
+plot(p224r63_2011)
+#Banda 6, per il termico, solitamente è divisa in 2
+
+#Prima dell'analisi serve fare un ricampionamento
+#imm com 30mln/px, riduciamo la risoluzione attraverso l'aggregazione di pixel attraverso summary statistics, solitamente estrare la media
+#funzione "aggregate", argomento "fact" ci chiede il valore di quanti px vogliamo aggregare linearmente
+p224r63_2011res <- aggregate(p224r63_2011, fact=10)
+
+g1 <- ggRGB(p224r63_2011)
+g2 <- ggRGB(p224r63_2011res)
+g1 + g2
+
+p224r63_2011res100 <- aggregate(p224r63_2011, fact=100)
+g3 <- ggRGB(p224r63_2011res100)
+g1 + g2 + g3
