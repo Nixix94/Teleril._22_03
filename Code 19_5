@@ -86,4 +86,18 @@ scale_fill_viridis(option="inferno")
 im1 + im2 / im3
 
 #Calcolare eterogeneità in 5x5 window
-sd_pc1 <- focal(pc1, matrix(1/25, 5, 5), fun=sd)
+sd5 <- focal(pc1, matrix(1/25, 5, 5), fun=sd)
+im4 <- ggplot() +
+geom_raster(sd5, mapping=aes(x=x, y=y, fill=layer)) +
+scale_fill_viridis(option="inferno")
+
+sd7 <- focal(pc1, matrix(1/49, 7, 7), fun=sd)
+im5 <- ggplot() +
+geom_raster(sd7, mapping=aes(x=x, y=y, fill=layer)) +
+scale_fill_viridis(option="inferno")
+
+im3 + im4
+im3 + im4 + im5
+
+#cosa succede se aumentiamo la window?
+#multivariabilità ripresa tra due/tre lezioni
