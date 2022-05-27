@@ -1,0 +1,11 @@
+27/5
+#Variabilità spaziale delle specie - Species Distribution Modelling SDM
+
+
+
+#In matrice raster con probabilità di presenza (da 0 a 1) in funzione di variabili ambientali che favoriscono la presenza di una specie
+#Relazione tra specie e variabili ambientali
+#Predizione e comprensione presenza e distribuzione
+
+#install.packages("sdm")
+library(sdm)
