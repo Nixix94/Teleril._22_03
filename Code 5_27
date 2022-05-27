@@ -9,3 +9,9 @@
 
 #install.packages("sdm")
 library(sdm)
+library(raster)
+library(RStoolbox)
+library(ggplot2)
+library(patchwork)
+library(viridis)
+setwd("C:/lab/")
